@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odoo AppStore Index File Maker</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Google Material Symbols (Odoo Icons .oi) -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Bootstrap 5 CSS (Used by Odoo 16/17/18/19/20 App Store Layout) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Modular Stylesheet -->
+    <link rel="stylesheet" href="css/builder.css?v=20.0.53">
+</head>
+
+<body>
+    <!-- TOP HEADER -->
+    <header class="topbar">
+        <div class="topbar-brand">
+            <button class="btn btn-primary" id="btn-save-template" onclick="saveCurrentTemplate()"
+                title="Save Template to Odoo"
+                style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; font-size: 13px; font-weight: 700; background: #00A09D; border-color: #00A09D; color: #ffffff; cursor: pointer;">
+                <i class="fa fa-floppy-o"></i> Save
+            </button>
+            <button class="btn btn-outline" id="btn-new-template" onclick="startNewTemplate()"
+                title="Create New Blank Template"
+                style="display: inline-flex; align-items: center; gap: 4px; padding: 6px 12px; font-size: 12px; font-weight: 600; background: #ffffff; color: #475569; border-color: #cbd5e1; cursor: pointer;">
+                <i class="fa fa-plus"></i> Create New
+            </button>
+            <div id="template-info-badge"
+                style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px;">
+                <span id="template-status-tag"
+                    style="font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; background: #e0f2fe; color: #0369a1; text-transform: uppercase;">NEW</span>
+                <span id="template-name-display"
+                    style="font-size: 12px; font-weight: 600; color: #334155; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Odoo
+                    AppStore Index File Maker</span>
+            </div>
+        </div>
+
+        <div class="topbar-center">
+            <button class="viewport-btn active" id="view-desktop" onclick="setViewport('desktop')">
+                <i class="fa fa-desktop"></i> Desktop
+            </button>
+            <button class="viewport-btn" id="view-tablet" onclick="setViewport('tablet')">
+                <i class="fa fa-tablet"></i> Tablet
+            </button>
+            <button class="viewport-btn" id="view-mobile" onclick="setViewport('mobile')">
+                <i class="fa fa-mobile"></i> Mobile
+            </button>
+        </div>
+
+        <div class="topbar-actions">
+            <button class="btn btn-primary" onclick="openPreviewModal()" title="Live Simulator Preview">
+                <i class="fa fa-eye"></i> Preview
+            </button>
+            <button class="btn btn-success" onclick="downloadIndexFile()" title="Download index.html">
+                <i class="fa fa-download"></i> Download
+            </button>
+            <button class="btn btn-outline" onclick="openTemplatesModal()" title="Choose template">
+                <i class="fa fa-folder-open-o"></i> Templates
+            </button>
+            <button class="btn btn-outline" onclick="openCodeModal()" title="View HTML code">
+                <i class="fa fa-code"></i> HTML
+            </button>
+        </div>
+    </header>
+
+    <!-- 3-COLUMN WORKSPACE -->
+    <main class="workspace">
+        <!-- left PANEL: WIDGETS LIBRARY -->
+        <aside class="panel-left">
+            <div class="panel-header">
+                <span class="panel-title"><i class="fa fa-th-large" style="color: var(--primary);"></i> Add
+                    Widgets</span>
+                <span style="font-size: 11px; color: var(--text-muted); font-weight: 600;">Drag or click +</span>
+            </div>
+
+            <div class="search-box">
+                <input type="text" class="form-input" id="widget-search" placeholder="Filter widgets..."
+                    onkeyup="filterWidgets(this.value)">
+            </div>
+
+            <div class="panel-content" id="widgets-catalog-container">
+                <!-- Populated dynamically from catalog -->
+            </div>
+        </aside>
+
+
+        <!-- CENTER: CANVAS -->
+        <section class="panel-center" id="canvas-area">
+            <div class="canvas-wrapper" id="canvas-root">
+                <!-- Live sections rendered here -->
+            </div>
+
+        </section>
+        <!-- right PANEL: PROPERTIES -->
+        <aside class="panel-right">
+            <div class="panel-tabs">
+                <div class="panel-tab active" id="tab-props" onclick="switchLeftTab('props')">
+                    <i class="fa fa-sliders"></i> Widget Properties
+                </div>
+                <div class="panel-tab" id="tab-global" onclick="switchLeftTab('global')">
+                    <i class="fa fa-cog"></i> Global Settings
+                </div>
+            </div>
+
+            <div class="panel-content" id="props-container">
+                <!-- Dynamically populated by JS -->
+            </div>
+        </aside>
+
+
+    </main>
+
+    <!-- PREVIEW MODAL -->
+    <div class="modal-overlay" id="preview-modal">
+        <div class="modal-card" style="max-width: 1100px; height: 90vh;">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fa fa-eye" style="color: var(--primary);"></i>
+                    <h3 style="font-size: 16px; font-weight: 700;">Odoo App Store Live Simulator</h3>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-success" onclick="downloadIndexFile()">
+                        <i class="fa fa-download"></i> Download index.html
+                    </button>
+                    <button class="btn btn-outline" style="color: #64748b; border-color: #cbd5e1;"
+                        onclick="closeModal('preview-modal')">
+                        <i class="fa fa-times"></i> Close
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body" style="padding: 0; background: #f8fafc;">
+                <iframe id="preview-iframe"
+                    style="width: 100%; height: 100%; border: none; min-height: 600px;"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- CODE VIEW MODAL -->
+    <div class="modal-overlay" id="code-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fa fa-code" style="color: var(--primary);"></i>
+                    <h3 style="font-size: 16px; font-weight: 700;">Generated Odoo App Store HTML</h3>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-primary" onclick="copyHTMLCode()">
+                        <i class="fa fa-copy"></i> Copy Code
+                    </button>
+                    <button class="btn btn-outline" style="color: #64748b; border-color: #cbd5e1;"
+                        onclick="closeModal('code-modal')">
+                        <i class="fa fa-times"></i> Close
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="code-box" id="code-display"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TEMPLATES MODAL -->
+    <div class="modal-overlay" id="templates-modal">
+        <div class="modal-card" style="max-width: 680px;">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fa fa-folder-open-o" style="color: var(--primary); font-size: 18px;"></i>
+                    <h3 style="font-size: 16px; font-weight: 700;">Templates</h3>
+                </div>
+                <button class="btn btn-outline" style="color: #64748b; border-color: #cbd5e1;"
+                    onclick="closeModal('templates-modal')">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 14px; color: #64748b; margin-bottom: 16px;">Choose a pre-designed layout to
+                    jumpstart your Odoo App Store description:</p>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <!-- Template 1: Odoo Theme -->
+                    <div class="item-card"
+                        style="cursor: pointer; padding: 16px; border: 1px solid #e2e8f0; border-radius: 10px; transition: all 0.2s ease; box-shadow: 0 1px 3px rgba(0,0,0,0.03);"
+                        onclick="loadTemplate('odoo_theme')">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="display: flex; align-items: center; gap: 14px; flex: 1; min-width: 0;">
+                                <div
+                                    style="width: 44px; height: 44px; border-radius: 10px; background-color: rgba(113, 75, 103, 0.12); color: #714B67; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">
+                                    <i class="fa fa-cube"></i>
+                                </div>
+                                <div style="flex: 1; min-width: 0;">
+                                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                                        <h4 style="font-size: 15px; font-weight: 700; color: #714B67; margin: 0;">Odoo
+                                            Theme</h4>
+                                        <span
+                                            style="font-size: 10px; font-weight: 700; background: #e0f2fe; color: #0369a1; padding: 2px 6px; border-radius: 4px;">DEFAULT
+                                            PURPLE</span>
+                                    </div>
+                                    <p style="font-size: 12.5px; color: #64748b; margin: 0;">
+                                        Standard Odoo App Store presentation with Purple &amp; Teal branding, comparison
+                                        table, showcases, and FAQs.
+                                    </p>
+                                </div>
+                            </div>
+                            <div style="margin-left: 14px; flex-shrink: 0;">
+                                <button class="btn btn-primary"
+                                    style="font-size: 12px; padding: 6px 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
+                                    <i class="fa fa-folder-open-o"></i> Load Template
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Template 2: Black Theme -->
+                    <div class="item-card"
+                        style="cursor: pointer; padding: 16px; border: 1px solid #e2e8f0; border-radius: 10px; transition: all 0.2s ease; box-shadow: 0 1px 3px rgba(0,0,0,0.03);"
+                        onclick="loadTemplate('black_theme')">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="display: flex; align-items: center; gap: 14px; flex: 1; min-width: 0;">
+                                <div
+                                    style="width: 44px; height: 44px; border-radius: 10px; background-color: rgba(0, 0, 0, 0.08); color: #1e293b; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">
+                                    <i class="fa fa-moon-o"></i>
+                                </div>
+                                <div style="flex: 1; min-width: 0;">
+                                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                                        <h4 style="font-size: 15px; font-weight: 700; color: #0f172a; margin: 0;">Black
+                                            Theme</h4>
+                                        <span
+                                            style="font-size: 10px; font-weight: 700; background: #fef3c7; color: #b45309; padding: 2px 6px; border-radius: 4px;">DARK
+                                            &amp; GOLD</span>
+                                    </div>
+                                    <p style="font-size: 12.5px; color: #64748b; margin: 0;">
+                                        High-contrast luxury dark layout with gold accents, 3-step workflow, desktop
+                                        showcase, and dark banners.
+                                    </p>
+                                </div>
+                            </div>
+                            <div style="margin-left: 14px; flex-shrink: 0;">
+                                <button class="btn btn-outline"
+                                    style="font-size: 12px; padding: 6px 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; color: #0f172a; border-color: #cbd5e1;">
+                                    <i class="fa fa-folder-open-o"></i> Load Template
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Template 3: Blank Canvas -->
+                    <div class="item-card"
+                        style="cursor: pointer; padding: 12px 16px; border: 1px dashed #cbd5e1; background: #fafafa; border-radius: 8px; margin-top: 4px;"
+                        onclick="loadTemplate('blank')">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <i class="fa fa-trash-o" style="color: #ef4444; font-size: 16px;"></i>
+                                <div>
+                                    <strong style="font-size: 13px; color: #ef4444;">Start from Blank Canvas</strong>
+                                    <span style="font-size: 12px; color: #94a3b8; margin-left: 8px;">Clear canvas and
+                                        design from scratch</span>
+                                </div>
+                            </div>
+                            <span style="font-size: 12px; color: #94a3b8;"><i class="fa fa-chevron-right"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SAVED TEMPLATES IN ODOO MODAL -->
+    <div class="modal-overlay" id="saved-templates-modal">
+        <div class="modal-card" style="max-width: 720px;">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fa fa-database" style="color: var(--primary); font-size: 18px;"></i>
+                    <h3 style="font-size: 16px; font-weight: 700;">Saved Templates in Odoo</h3>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-primary" style="font-size: 12px; padding: 5px 12px;"
+                        onclick="startNewTemplate(); closeModal('saved-templates-modal');">
+                        <i class="fa fa-plus"></i> Create New
+                    </button>
+                    <button class="btn btn-outline" style="color: #64748b; border-color: #cbd5e1;"
+                        onclick="closeModal('saved-templates-modal')">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 13px; color: #64748b; margin-bottom: 14px;">
+                    Select any previously saved template to load and continue editing in the builder:
+                </p>
+                <div id="saved-templates-list-container"
+                    style="display: flex; flex-direction: column; gap: 10px; max-height: 420px; overflow-y: auto;">
+                    <div style="text-align: center; padding: 30px; color: #94a3b8;">
+                        <i class="fa fa-spinner fa-spin"
+                            style="font-size: 24px; margin-bottom: 8px; display: block;"></i>
+                        Loading saved templates...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div class="toast" id="toast-notify">
+        <i class="fa fa-check-circle" style="color: #10b981; font-size: 18px;"></i>
+        <span id="toast-msg">Action completed</span>
+    </div>
+
+
+    <script>
+        function goBackToOdoo() {
+            if (window.top && window.top !== window) {
+                try {
+                    if (window.top.history && window.top.history.length > 1) {
+                        window.top.history.back();
+                    } else {
+                        window.top.location.href = '/odoo';
+                    }
+                } catch (e) {
+                    window.top.location.href = '/odoo';
+                }
+            } else {
+                window.history.back();
+            }
+        }
+    </script>
+    <!-- Modular JavaScript Files -->
+    <script src="js/widgets.js?v=20.0.71"></script>
+    <script src="js/generator.js?v=20.0.71"></script>
+    <script src="js/app.js?v=20.0.71"></script>
+</body>
+
+</html>

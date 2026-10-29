@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Load Font Awesome 4 and Google Material Symbols in Backend for HTML Preview -->
+    <template id="index_maker_web_layout_icons" inherit_id="web.layout" name="Index Maker Backend Icons">
+        <xpath expr="//head" position="inside">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+        </xpath>
+    </template>
+
+    <!-- Tree View -->
+    <record id="view_appstore_index_template_tree" model="ir.ui.view">
+        <field name="name">appstore.index.template.tree</field>
+        <field name="model">appstore.index.template</field>
+        <field name="arch" type="xml">
+            <list string="AppStore Index Templates">
+                <field name="name"/>
+                <field name="technical_name"/>
+                <field name="odoo_version"/>
+                <field name="write_date"/>
+                <button name="action_open_builder" string="Launch Drag &amp; Drop Builder" type="object" class="btn-primary"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_appstore_index_template_form" model="ir.ui.view">
+        <field name="name">appstore.index.template.form</field>
+        <field name="model">appstore.index.template</field>
+        <field name="arch" type="xml">
+            <form string="AppStore Index Template">
+                <header>
+                    <button name="action_open_builder" string="Launch Drag &amp; Drop Builder" type="object" class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="e.g. Odoo AppStore Index File Maker"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="technical_name" placeholder="e.g. index_file_maker"/>
+                            <field name="odoo_version"/>
+                        </group>
+                        <group>
+                            <field name="write_date" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Generated HTML Preview">
+                            <field name="html_content" widget="html" readonly="1"/>
+                        </page>
+                        <page string="Schema JSON">
+                            <field name="schema_json" readonly="1"/>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes" placeholder="Changelog, requirements, or documentation notes..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_appstore_index_template_search" model="ir.ui.view">
+        <field name="name">appstore.index.template.search</field>
+        <field name="model">appstore.index.template</field>
+        <field name="arch" type="xml">
+            <search string="Search Templates">
+                <field name="name"/>
+                <field name="technical_name"/>
+                <filter string="Odoo 20" name="v20" domain="[('odoo_version','=','20.0')]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Window Action -->
+    <record id="action_appstore_index_template" model="ir.actions.act_window">
+        <field name="name">Saved Templates</field>
+        <field name="res_model">appstore.index.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create and manage Odoo App Store index.html templates!
+            </p>
+        </field>
+    </record>
+</odoo>
