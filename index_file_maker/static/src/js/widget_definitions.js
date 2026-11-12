@@ -210,7 +210,7 @@ export const WIDGET_CATALOG = [
                 defaultData: {
                     title: 'Odoo AppStore Index File Maker',
                     subtitle: 'Build responsive, store-compliant module description pages in minutes without writing raw HTML.',
-                    badge: 'ODOO 20 READY',
+                    badge: 'ODOO 19 READY',
                     bgColor: '#ffffff',
                     textColor: '#1e293b',
                     accentColor: '#714B67'

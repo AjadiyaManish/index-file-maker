@@ -1143,7 +1143,7 @@ function renderWidgetAppStore(widget, globalBrand, globalAccent) {
                 if (srcMatch) bannerSrc = srcMatch[1];
 
                 const badgeText = app.badge || 'Popular';
-                const versionText = app.version || 'Odoo 20';
+                const versionText = app.version || 'Odoo 19';
                 const btnLabel = app.btnText || 'Get App';
 
                 const bannerHTML = bannerSrc

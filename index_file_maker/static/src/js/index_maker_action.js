@@ -1,21 +1,21 @@
 /** @odoo-module **/
 
-import { Component, useProps } from "@odoo/owl";
+import { Component } from "@odoo/owl";
 import { registry } from "@web/core/registry";
-import { standardActionServiceProps } from "@web/webclient/actions/action_plugin";
+import { standardActionServiceProps } from "@web/webclient/actions/action_service";
 
 export class IndexMakerAction extends Component {
     static template = "index_file_maker.IndexMakerAction";
-    props = useProps(standardActionServiceProps);
+    static props = { ...standardActionServiceProps };
 
     setup() {
         try {
             const params = (this.props && this.props.action && this.props.action.params) || {};
             const context = (this.props && this.props.action && this.props.action.context) || {};
             const tId = params.template_id || context.active_id || '';
-            this.iframeUrl = `/index_file_maker/static/src/standalone/index.html?v=20.0.71${tId ? `&template_id=${encodeURIComponent(tId)}` : ''}`;
+            this.iframeUrl = `/index_file_maker/static/src/standalone/index.html?v=19.0.1${tId ? `&template_id=${encodeURIComponent(tId)}` : ''}`;
         } catch (e) {
-            this.iframeUrl = "/index_file_maker/static/src/standalone/index.html?v=20.0.71";
+            this.iframeUrl = "/index_file_maker/static/src/standalone/index.html?v=19.0.1";
         }
     }
 

@@ -9,13 +9,13 @@ class AppstoreIndexTemplate(models.Model):
     name = fields.Char(string='App / Template Name', required=True, default='Odoo AppStore Index File Maker')
     technical_name = fields.Char(string='Module Technical Name', default='index_file_maker', help='e.g. index_file_maker')
     odoo_version = fields.Selection([
-        ('20.0', 'Odoo 20.0'),
         ('19.0', 'Odoo 19.0'),
+        ('20.0', 'Odoo 20.0'),
         ('18.0', 'Odoo 18.0'),
         ('17.0', 'Odoo 17.0'),
         ('16.0', 'Odoo 16.0'),
         ('all', 'All Odoo Versions'),
-    ], string='Target Version', default='20.0')
+    ], string='Target Version', default='19.0')
     schema_json = fields.Text(string='Widget Schema JSON', default='[]')
     html_content = fields.Html(string='Generated AppStore HTML', sanitize=False)
     notes = fields.Text(string='Notes / Changelog')

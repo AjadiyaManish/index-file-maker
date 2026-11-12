@@ -10,7 +10,7 @@ let currentViewport = 'desktop';
 let pageSettings = {
     appName: 'Odoo AppStore Index File Maker',
     technicalName: 'index_file_maker',
-    odooVersion: '20.0',
+    odooVersion: '19.0',
     brandColor: '#714B67',
     accentColor: '#00A09D',
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
@@ -724,7 +724,7 @@ function renderPropertyInspector() {
                     </div>` : `
                     <div style="text-align: center; margin-bottom: 12px; padding: 10px; background: ${d.bgColor || '#714B67'}; border-radius: 6px;">
                         <span id="badge-chip-live-preview" style="background-color: ${d.badgeBgColor}; color: ${d.badgeTextColor}; border: 1px solid ${d.badgeBorderColor}; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; display: inline-block;">
-                            Odoo 20 &bull; Enterprise
+                            Odoo 19 &bull; Enterprise
                         </span>
                     </div>`}
 
@@ -3522,7 +3522,7 @@ function renderPropertyInspector() {
                             </div>
                             <div style="width: 100px;">
                                 <label style="font-size: 11px; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 2px;">Version Tag</label>
-                                <input type="text" class="form-input app-version-input" value="${escapeHTML(app.version || 'Odoo 20')}" placeholder="e.g. Odoo 20" style="font-size: 12px; padding: 5px 8px;">
+                                <input type="text" class="form-input app-version-input" value="${escapeHTML(app.version || 'Odoo 19')}" placeholder="e.g. Odoo 19" style="font-size: 12px; padding: 5px 8px;">
                             </div>
                         </div>
 
@@ -3734,7 +3734,7 @@ function renderPropertyInspector() {
                 company: (d.apps.length > 0 && d.apps[0].company) ? d.apps[0].company : 'Your Company',
                 price: '$ 25.00',
                 badge: 'Featured',
-                version: 'Odoo 20',
+                version: 'Odoo 19',
                 btnText: 'Get App',
                 appUrl: 'https://apps.odoo.com/apps/modules'
             });
@@ -4376,10 +4376,10 @@ function loadTemplate(name, silent = false) {
     if (name === 'blank') {
         activeWidgets = [];
         selectedWidgetId = null;
-        currentTemplateName = 'My Custom Odoo 20 App';
-        pageSettings.appName = 'My Custom Odoo 20 App';
+        currentTemplateName = 'My Custom Odoo 19 App';
+        pageSettings.appName = 'My Custom Odoo 19 App';
         pageSettings.technicalName = '';
-        pageSettings.odooVersion = '20.0';
+        pageSettings.odooVersion = '19.0';
     } else if (typeof STARTER_TEMPLATES !== 'undefined' && STARTER_TEMPLATES[name]) {
         const tpl = STARTER_TEMPLATES[name];
         activeWidgets = JSON.parse(JSON.stringify(tpl.widgets || []));
@@ -4387,7 +4387,7 @@ function loadTemplate(name, silent = false) {
         currentTemplateName = tpl.name;
         pageSettings.appName = tpl.appName || tpl.name;
         pageSettings.technicalName = tpl.technicalName || 'index_file_maker';
-        pageSettings.odooVersion = '20.0';
+        pageSettings.odooVersion = '19.0';
         if (tpl.brandColor) pageSettings.brandColor = tpl.brandColor;
         if (tpl.accentColor) pageSettings.accentColor = tpl.accentColor;
     } else {
@@ -4498,7 +4498,7 @@ async function saveCurrentTemplate() {
                 template_id: currentTemplateId ? parseInt(currentTemplateId) : null,
                 name: (pageSettings.appName || 'My Awesome App').trim(),
                 technical_name: (pageSettings.technicalName || '').trim(),
-                odoo_version: pageSettings.odooVersion || '20.0',
+                odoo_version: pageSettings.odooVersion || '19.0',
                 schema_json: JSON.stringify(activeWidgets),
                 html_content: compileFinalAppStoreHTML(false)
             }
@@ -4560,7 +4560,7 @@ async function loadTemplateFromBackend(id) {
             currentTemplateName = t.name;
             pageSettings.appName = t.name || 'Untitled App';
             pageSettings.technicalName = t.technical_name || '';
-            pageSettings.odooVersion = t.odoo_version || '20.0';
+            pageSettings.odooVersion = t.odoo_version || '19.0';
 
             if (t.schema_json && t.schema_json.trim() !== '[]') {
                 try {
@@ -4599,8 +4599,8 @@ async function loadTemplateFromBackend(id) {
 
 function startNewTemplate() {
     currentTemplateId = null;
-    currentTemplateName = 'My Custom Odoo 20 App';
-    pageSettings.appName = 'My Custom Odoo 20 App';
+    currentTemplateName = 'My Custom Odoo 19 App';
+    pageSettings.appName = 'My Custom Odoo 19 App';
     pageSettings.technicalName = 'my_custom_app';
     loadTemplate('blank');
     updateTemplateHeaderDisplay();

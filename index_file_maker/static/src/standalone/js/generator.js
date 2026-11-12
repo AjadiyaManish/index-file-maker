@@ -7,7 +7,7 @@
 function getFontAwesomeLinks() {
     const links = [];
     try {
-        links.push(new URL('/web/static/lib/fontawesome/css/font-awesome.css', window.location.origin).href);
+        links.push(new URL('/web/static/src/libs/fontawesome/css/font-awesome.css', window.location.origin).href);
     } catch (e) { /* ignore */ }
     document.querySelectorAll('link[rel="stylesheet"]').forEach(l => {
         if (/awesome/i.test(l.href) && !links.includes(l.href)) links.push(l.href);
@@ -1195,7 +1195,7 @@ function renderWidgetHtml(widget) {
                 if (srcMatch) bannerSrc = srcMatch[1];
 
                 const badgeText = app.badge || 'Popular';
-                const versionText = app.version || 'Odoo 20';
+                const versionText = app.version || 'Odoo 19';
                 const btnLabel = app.btnText || 'Get App';
 
                 const bannerHTML = bannerSrc

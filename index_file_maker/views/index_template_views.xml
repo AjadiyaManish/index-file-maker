@@ -70,6 +70,7 @@
             <search string="Search Templates">
                 <field name="name"/>
                 <field name="technical_name"/>
+                <filter string="Odoo 19" name="v19" domain="[('odoo_version','=','19.0')]"/>
                 <filter string="Odoo 20" name="v20" domain="[('odoo_version','=','20.0')]"/>
             </search>
         </field>

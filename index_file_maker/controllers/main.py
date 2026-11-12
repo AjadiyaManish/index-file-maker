@@ -7,7 +7,7 @@ class IndexFileMakerController(http.Controller):
     @http.route('/index_file_maker/editor', type='http', auth='user', website=False)
     def index_editor(self, **kwargs):
         """Direct access to the Index Maker editor in backend"""
-        return request.redirect('/web#action=index_file_maker.action_index_builder')
+        return request.redirect('/odoo/action-index_file_maker.action_index_builder')
 
     @http.route('/index_file_maker/get_template', type='jsonrpc', auth='public')
     def get_template(self, template_id):
@@ -17,14 +17,14 @@ class IndexFileMakerController(http.Controller):
                 'id': record.id,
                 'name': record.name,
                 'technical_name': record.technical_name or '',
-                'odoo_version': record.odoo_version or '20.0',
+                'odoo_version': record.odoo_version or '19.0',
                 'schema_json': record.schema_json or '[]',
                 'html_content': record.html_content or '',
             }
         return {'error': 'Template not found'}
 
     @http.route('/index_file_maker/save_template', type='jsonrpc', auth='public')
-    def save_template(self, template_id=None, name='Untitled', technical_name='', odoo_version='20.0', schema_json='[]', html_content=''):
+    def save_template(self, template_id=None, name='Untitled', technical_name='', odoo_version='19.0', schema_json='[]', html_content=''):
         Template = request.env['appstore.index.template'].sudo()
         if template_id:
             record = Template.browse(int(template_id))
@@ -32,7 +32,7 @@ class IndexFileMakerController(http.Controller):
                 record.write({
                     'name': name,
                     'technical_name': technical_name,
-                    'odoo_version': odoo_version or '20.0',
+                    'odoo_version': odoo_version or '19.0',
                     'schema_json': schema_json,
                     'html_content': html_content,
                 })
@@ -41,7 +41,7 @@ class IndexFileMakerController(http.Controller):
         record = Template.create({
             'name': name,
             'technical_name': technical_name,
-            'odoo_version': odoo_version or '20.0',
+            'odoo_version': odoo_version or '19.0',
             'schema_json': schema_json,
             'html_content': html_content,
         })

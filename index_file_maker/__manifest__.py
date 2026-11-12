@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Odoo AppStore Index File Maker',
-    'version': '20.0.1.0.0',
+    'version': '19.0.1.0.0',
     'category': 'Productivity',
     'summary': 'Visual Drag & Drop Builder to Create Odoo App Store Compatible index.html',
     'sequence': 10,
@@ -13,7 +13,7 @@
     'price': 50.00,
     'currency': 'USD',
     'description': """
-Odoo AppStore Index File Maker (Odoo 20)
+Odoo AppStore Index File Maker (Odoo 19)
 ========================================
 Visual Drag & Drop Builder to create professional, high-converting index.html
 descriptions for Odoo App Store modules.
@@ -30,7 +30,7 @@ Layout & Features:
 """,
     'depends': ['base', 'web'],
     'data': [
-        'security/ir.access.csv',
+        'security/ir.model.access.csv',
         'views/index_template_views.xml',
         'views/menus.xml',
     ],
@@ -43,7 +43,6 @@ Layout & Features:
             'index_file_maker/static/src/xml/index_maker_template.xml',
         ],
     },
-
     'images': ['static/description/banner.gif'],
     'installable': True,
     'application': True,
